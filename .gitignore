@@ -1,0 +1,10 @@
+/target
+/Cargo.lock
+/devenv.lock
+
+# Devenv
+.devenv*
+devenv.local.nix
+.direnv
+.pre-commit-config.yaml
+
