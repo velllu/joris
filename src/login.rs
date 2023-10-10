@@ -1,5 +1,7 @@
 use serde::Deserialize;
+use tungstenite::{connect, Message};
 use ureq::json;
+use url::Url;
 
 use crate::{errors::JorisError, Joris, URL_BASE, USER_AGENT};
 
@@ -39,8 +41,19 @@ impl Joris {
             .send_json(json!({"code": auth_code, "ticket": ticket}))?
             .into_json::<Response>()?;
 
+        let (mut socket, _) =
+            connect(Url::parse("wss://gateway.discord.gg/?encoding=json&v=9").unwrap())?;
+
+        match socket.write(Message::Text(
+            json!({"d": {"token": response.token}}).to_string(),
+        )) {
+            Ok(_) => {}
+            Err(_) => return Err(JorisError::CouldNotConnect),
+        }
+
         Ok(Joris {
             token: response.token,
+            socket,
         })
     }
 }

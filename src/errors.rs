@@ -17,3 +17,9 @@ impl From<io::Error> for JorisError {
         Self::CouldNotParseResponse
     }
 }
+
+impl From<tungstenite::Error> for JorisError {
+    fn from(_: tungstenite::Error) -> Self {
+        Self::CouldNotConnect
+    }
+}

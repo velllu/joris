@@ -16,12 +16,4 @@
   packages = with pkgs; [
     openssl
   ];
-
-  #packages = [ pkgs.git ];
-  #env.GREET = "devenv";
-  #scripts.hello.exec = "echo hello from $GREET";
-  #enterShell = ''
-  #  hello
-  #  git --version
-  #'';
 }
